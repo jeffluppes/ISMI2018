@@ -3,7 +3,7 @@
 # I linked several kernels on the chat, should not be terribly hard to implement one!
 # Something that this network benefits from is small dropout and I'm pretty sure we can go deeper. Like, balls deep. Not you gijs. 
 
-def get_unet():
+def get_unet(img_rows=512, img_cols=512):
     inputs = Input((img_rows, img_cols, 1))
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv1)
@@ -42,9 +42,27 @@ def get_unet():
 
     conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
 
-    model = Model(inputs=[inputs], outputs=[conv10])
+    model = Model(inputs=inputs, outputs=conv10)
 
-    model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
+    model.compile(optimizer='SGD', loss='categorical_crossentropy', metrics=f1_score)
 
     return model
 
+def f1_score(y_true, y_pred):
+    
+    # Compute precision, recall and obtain several detection thresholds
+    precision, recall, thresholds = precision_recall_curve(y_true, y_pred)
+    thresholds = np.append(thresholds, thresholds[-1])
+    
+    # Compute F1-score and remove numerical problems
+    f1 =  2 * (precision * recall) / (precision + recall)
+    thresholds = thresholds[~np.isnan(f1)]
+    f1 = f1[~np.isnan(f1)]
+    
+    return f1, thresholds
+
+
+model = get_unet()
+#training
+
+#test
