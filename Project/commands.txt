@@ -1,0 +1,23 @@
+local commands - replace ruc0028 with your username
+
+Copy file to cartesius
+    scp D:/ISMI2018/Project/ProjectNotebook.ipynb ruc0028@cartesius.surfsara.nl:/home/ruc0028/Project/ProjectNotebook.ipynb
+
+Get notebook in ur browzah
+    ssh -L 5155:localhost:5155 ruc0028@vis.cartesius.surfsara.nl
+
+# ---- Cartesius commands ---- #
+
+Files for the project
+    /projects/0/ismi2018/FINALPROJECTS/LYMPHOCYTE_DETECTION/train_images
+	
+Get the files locally
+	cp -r /projects/0/ismi2018/FINALPROJECTS/LYMPHOCYTE_DETECTION/ /home/ruc0028/Project/data
+	
+See group budget remaining
+    Accinfo
+    Usage:
+    31/05: 60250 left
+    01/06: 60192 left (-58)
+    
+    
